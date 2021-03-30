@@ -1,9 +1,8 @@
 package com.hyper.math;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
+import static java.math.BigDecimal.ZERO;
 
-import static java.math.BigDecimal.*;
+import java.math.BigDecimal;
 
 public class Vector2bd {
 	protected BigDecimal x = ZERO, y = ZERO;
@@ -96,7 +95,7 @@ public class Vector2bd {
 		return x.multiply(x).multiply(y).multiply(y);
 	}
 	
-	public BigDecimal length(MathContext c) {
+	/*public BigDecimal length(MathContext c) {
 		return lengthSquared().sqrt(c);
 	}
 
@@ -105,7 +104,7 @@ public class Vector2bd {
 			return null;
 		this.scale(ONE.divide(length(c), c));
 		return this;
-	}
+	}*/
 
 
 	@Override
