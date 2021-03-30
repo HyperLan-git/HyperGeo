@@ -9,18 +9,25 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JSplitPane;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 
+import org.mariuszgromada.math.mxparser.Function;
+
 import com.hyper.components.rr.Canvas2D;
 import com.hyper.components.rr.FunctionPanel;
+import com.hyper.components.rr.FunctionUpdateListener;
 
 public class EventHandler2d implements MouseListener, MouseWheelListener, MouseMotionListener, HierarchyBoundsListener, CellEditorListener, PropertyChangeListener {
 	private Canvas2D canvas;
 	private FunctionPanel functions;
 	private JSplitPane content;
+	
+	private List<FunctionUpdateListener> listeners = new ArrayList<>();
 
 	public EventHandler2d(Canvas2D canvas, FunctionPanel functions, JSplitPane content) {
 		this.canvas = canvas;
@@ -73,7 +80,7 @@ public class EventHandler2d implements MouseListener, MouseWheelListener, MouseM
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		canvas.zoom((Math.exp(e.getPreciseWheelRotation())-1.0)/5.0);
 	}
-
+	
 	@Override
 	public void ancestorMoved(HierarchyEvent e) {}
 
@@ -85,7 +92,9 @@ public class EventHandler2d implements MouseListener, MouseWheelListener, MouseM
 	@Override
 	public void editingStopped(ChangeEvent e) {
 		System.out.println("The user finished editing.");
-		canvas.setFunctions(functions.read());
+		Function[] f = functions.read();
+		canvas.setFunctions(f);
+		for(FunctionUpdateListener listener : listeners) listener.onFunctionUpdate(f);
 	}
 
 	@Override
@@ -99,4 +108,11 @@ public class EventHandler2d implements MouseListener, MouseWheelListener, MouseM
 			canvas.update();
 	}
 
+	public void registerFunctionListener(FunctionUpdateListener listener) {
+		this.listeners.add(listener);
+	}
+	
+	public void removeFunctionListener(FunctionUpdateListener listener) {
+		this.listeners.remove(listener);
+	}
 }

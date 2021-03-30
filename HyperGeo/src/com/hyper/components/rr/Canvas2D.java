@@ -14,6 +14,8 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.joml.Vector2d;
 import org.joml.Vector2i;
@@ -26,12 +28,12 @@ public class Canvas2D extends Canvas {
 	public static final Dimension MINIMUM_SIZE = new Dimension(200, 200);
 	public static final Vector2i NULL = new Vector2i();
 	public static final BigDecimal TWO = new BigDecimal(2), THREE = new BigDecimal(3),
-			MIN = ONE.scaleByPowerOfTen(-1), MAX = ONE.scaleByPowerOfTen(3);
+			MIN = ONE, MAX = ONE.scaleByPowerOfTen(3);
 	public static final MathContext CONTEXT = new MathContext(10, RoundingMode.HALF_UP);
 	public static final int DEFAULT_GRID_NUMBER = 20;
 	public static final double TRANSFORM_TIME = 5000;
 	public static final DecimalFormat NORMAL_GRAPH_FORMAT = new DecimalFormat("##0.##");
-	public static final DecimalFormat BIG_SMALL_GRAPH_FORMAT = new DecimalFormat("##0.##E0");
+	public static final DecimalFormat BIG_SMALL_GRAPH_FORMAT = new DecimalFormat("##0.###E0");
 
 	public static final String graphFormat(BigDecimal x) {
 		BigDecimal abs = x.abs();
@@ -59,6 +61,8 @@ public class Canvas2D extends Canvas {
 	private Matrix2bd targetTransform = new Matrix2bd(), lastTransform = new Matrix2bd(),
 			currTransform = new Matrix2bd(), currTransformInverted = new Matrix2bd();
 
+	private List<Drawable2D> drawables = new ArrayList<>();
+	
 	public Canvas2D(Pane2D pane2d) {
 		this.setMinimumSize(MINIMUM_SIZE);
 		this.functions = new Function[0];
@@ -68,7 +72,7 @@ public class Canvas2D extends Canvas {
 	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, getWidth(), getHeight());
+		//g.fillRect(0, 0, getWidth(), getHeight());
 		if(offImage != null)
 			g.drawImage(offImage, 0, 0, this);
 		updateOffscreenImage();
@@ -85,7 +89,12 @@ public class Canvas2D extends Canvas {
 		//Draw the scale
 		Vector2i gPos = NULL, gPos2 = NULL,
 				gPos3 = NULL;
+		g.setColor(Color.BLUE);
+		g.setStroke(new BasicStroke(5));
+		for(Drawable2D d : drawables)
+			d.draw(g, this);
 		g.setColor(Color.BLACK);
+		g.setStroke(new BasicStroke(1));
 		for(BigDecimal x = ZERO; gPos.x <= this.getWidth(); x = x.add(gridX)) {
 			if(x.compareTo(xMin.subtract(gridX.multiply(TWO))) == -1) continue;
 			gPos = getGraphicalCoords(x, ZERO);
@@ -210,7 +219,7 @@ public class Canvas2D extends Canvas {
 	}
 
 
-	private double getFunctionValueAt(Function f, double x) {
+	public static final double getFunctionValueAt(Function f, double x) {
 		if(f == null || !f.checkSyntax()) return Double.NaN;
 		return f.calculate(x);
 	}
@@ -362,6 +371,10 @@ public class Canvas2D extends Canvas {
 		this.repaint();
 	}
 
+	public Function[] getFunctions() {
+		return functions;
+	}
+	
 	/**
 	 * @see #getVWin()
 	 * @param xMin
@@ -451,5 +464,17 @@ public class Canvas2D extends Canvas {
 		}
 		this.gridX = gridX;
 		this.gridY = gridY;
+	}
+	
+	public BigDecimal[] getGraphicalBounds() {
+		return new BigDecimal[] {xMin, yMin, xMax, yMax};
+	}
+	
+	public void addDrawable(Drawable2D d) {
+		this.drawables.add(d);
+	}
+
+	public void removeDrawable(Drawable2D d) {
+		this.drawables.remove(d);
 	}
 }

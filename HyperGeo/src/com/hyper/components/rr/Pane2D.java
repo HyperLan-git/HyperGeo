@@ -14,13 +14,15 @@ public class Pane2D extends JPanel {
 
 	private OptionDialog2D dialog;
 
-	private Matrix2DEditor editor;
+	//private Matrix2DEditor editor;
 
 	private JSplitPane content;
 
 	private Canvas2D canvas;
 
 	private FunctionPanel functions;
+	
+	private EventHandler2d handler;
 
 	public Pane2D(JFrame window) {
 		this.setLayout(new BorderLayout());
@@ -32,14 +34,15 @@ public class Pane2D extends JPanel {
 		this.functions = new FunctionPanel();
 		this.content = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, false, canvas, rightPane);
 
-		this.editor = new Matrix2DEditor(canvas);
+		//this.editor = new Matrix2DEditor(canvas);
 
 		this.dialog = new OptionDialog2D(window, this.canvas);
 
 		this.rightPane.add(functions, BorderLayout.CENTER);
-		this.rightPane.add(editor, BorderLayout.SOUTH);
+		this.content.setDividerLocation(500);
+		//this.rightPane.add(editor, BorderLayout.SOUTH);
 
-		new EventHandler2d(this.canvas, this.functions, this.content);
+		this.handler = new EventHandler2d(this.canvas, this.functions, this.content);
 
 		this.add(content, BorderLayout.CENTER);
 	}
@@ -51,5 +54,13 @@ public class Pane2D extends JPanel {
 
 	public FunctionPanel getFunctionPanel() {
 		return functions;
+	}
+	
+	public EventHandler2d getHandler() {
+		return handler;
+	}
+	
+	public Canvas2D getCanvas() {
+		return canvas;
 	}
 }
