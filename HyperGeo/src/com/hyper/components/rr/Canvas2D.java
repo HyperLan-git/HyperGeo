@@ -252,7 +252,7 @@ public class Canvas2D extends Canvas {
 			this.lastTransform.scale(progressToTarget, currTransform).add(temp);
 			this.currTransform.checkProperties();
 			this.currTransform.invert(CONTEXT, currTransformInverted);
-			new Thread() {
+			new Thread("delayedRepaint") {
 				public void run() {
 					try {
 						Thread.sleep(60);
