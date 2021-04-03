@@ -19,8 +19,8 @@ public class EndlessLine extends Drawable2D {
 	@Override
 	public void draw(Graphics2D g, Canvas2D c) {
 		Vector2i v1 = c.getGraphicalCoords(new Vector2bd(BigDecimal.ZERO, b)), v2 = c.getGraphicalCoords(BigDecimal.ONE, a);
-		Vector2d d = new Vector2d(v2).mul(1.0/v2.length());
-		d.mul(c.getGridStepping()[0].doubleValue()*100);
+		Vector2d d = new Vector2d(new Vector2i(v2).sub(v1)).mul(1.0/v2.length());
+		d.mul(c.getGridStepping()[0].doubleValue()*c.getWidth()*1000.0);
 		g.drawLine(v1.x - (int)d.x, v1.y - (int)d.y, v1.x + (int)d.x, v1.y + (int)d.y);
 	}
 
