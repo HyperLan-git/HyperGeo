@@ -16,6 +16,8 @@ import com.hyper.components.table.FunctionTable;
 import com.hyper.components.table.FunctionTableListener;
 
 public class FunctionPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
+
 	public static final String ARGUMENT_1 = "arg1", ARGUMENT_2 = "arg2",		//The regex ignores the match if there is an alphabetical character or _ behind ->(?<![A-Za-z_])
 			FUNCTIONS_REGEX = ParserSymbol.nameOnlyTokenRegExp,					//Then it matches the function name then the second regex ->[function_name]+FUNCTION_REGEX_2
 			FUNCTION_REFERENCE_REGEX_1 = "(?<![A-Za-z_])",						//Then it matches a ( then anything that is not , or )    ->\\((?<" + ARGUMENT_1 + ">[^\\),]

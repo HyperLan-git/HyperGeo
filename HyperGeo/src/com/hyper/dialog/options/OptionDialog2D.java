@@ -22,6 +22,8 @@ import javax.swing.border.TitledBorder;
 import com.hyper.components.rr.Canvas2D;
 
 public class OptionDialog2D extends JDialog implements ActionListener {
+	private static final long serialVersionUID = 1L;
+
 	public static final Dimension MINIMUM_SIZE = new Dimension(300, 200);
 
 	private JPanel mainPanel = new JPanel(),
@@ -56,7 +58,7 @@ public class OptionDialog2D extends JDialog implements ActionListener {
 		mainPanel.setLayout(new BorderLayout());
 		vWinPane.setLayout(new BorderLayout());
 		vWinEdit.setLayout(new GridLayout(3, 2));
-		gridEdit.setBorder(new TitledBorder("Échelle"));
+		gridEdit.setBorder(new TitledBorder("Ã©".toUpperCase() + "chelle"));
 
 		read();
 
@@ -142,9 +144,9 @@ public class OptionDialog2D extends JDialog implements ActionListener {
 		} catch (NumberFormatException e) {
 			System.out.println(e.getMessage());
 			if(error.getText().isEmpty())
-				error.setText("Entrée non reconnue : " + e.getLocalizedMessage());
+				error.setText("EntrÃ©e non reconnue : " + e.getLocalizedMessage());
 			else
-				error.setText(error.getText() + ", Entrée non reconnue : " + e.getLocalizedMessage());
+				error.setText(error.getText() + ", EntrÃ©e non reconnue : " + e.getLocalizedMessage());
 			return null;
 		}
 	}

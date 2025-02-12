@@ -25,6 +25,8 @@ import com.hyper.math.Matrix2bd;
 import com.hyper.math.Vector2bd;
 
 public class Canvas2D extends Canvas {
+	private static final long serialVersionUID = 1L;
+
 	public static final Dimension MINIMUM_SIZE = new Dimension(200, 200);
 	public static final Vector2i NULL = new Vector2i();
 	public static final BigDecimal TWO = new BigDecimal(2), THREE = new BigDecimal(3),

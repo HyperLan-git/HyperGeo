@@ -9,19 +9,21 @@ import javax.swing.JPanel;
 
 import org.joml.Vector2i;
 import org.jzy3d.chart.Chart;
-import org.jzy3d.chart.factories.AWTChartComponentFactory;
-import org.jzy3d.chart.factories.IChartComponentFactory;
+import org.jzy3d.chart2d.Chart2dFactory;
 import org.jzy3d.colors.Color;
 import org.jzy3d.maths.Range;
-import org.jzy3d.plot3d.builder.Builder;
 import org.jzy3d.plot3d.builder.Mapper;
+import org.jzy3d.plot3d.builder.SurfaceBuilder;
 import org.jzy3d.plot3d.builder.concrete.OrthonormalGrid;
-import org.jzy3d.plot3d.primitives.AbstractDrawable;
+import org.jzy3d.plot3d.primitives.Drawable;
 import org.jzy3d.plot3d.primitives.Shape;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
+import org.jzy3d.plot3d.rendering.view.modes.ViewPositionMode;
 import org.mariuszgromada.math.mxparser.Function;
 
 public class ChartHandler extends JPanel {
+	private static final long serialVersionUID = 1L;
+
 	public static final Dimension MINIMUM_SIZE = new Dimension(100, 100);
 
 	public static final int MAX_ALPHA = 200;
@@ -44,18 +46,19 @@ public class ChartHandler extends JPanel {
 		this.parent = parent;
 		this.setLayout(new BorderLayout());
 		this.setBackground(java.awt.Color.WHITE);
-		this.chart = AWTChartComponentFactory.chart(Quality.Nicest, IChartComponentFactory.Toolkit.newt);
+		this.chart = Chart2dFactory.chart(Quality.Nicest().setHiDPIEnabled(true));
 		chart.setAxeDisplayed(true);
-		Shape surface = Builder.buildOrthonormal(new OrthonormalGrid(xValues, xSteps, yValues, ySteps), new FunctionMapper());
+		Shape surface = new SurfaceBuilder().orthonormal(new OrthonormalGrid(xValues, xSteps, yValues, ySteps), new FunctionMapper());
 		surface.setColor(Color.BLACK);
 		chart.getScene().getGraph().add(surface);
+		chart.setViewMode(ViewPositionMode.FREE);
 		chart.addController(new CameraMouseController(chart));
 		setChartZScale(zValues);
 		this.add(getChartComponent(), BorderLayout.CENTER);
 
-		chart.getAxeLayout().setXAxeLabel("X");
-		chart.getAxeLayout().setYAxeLabel("Y");
-		chart.getAxeLayout().setZAxeLabel("Z");
+		chart.getAxisLayout().setXAxisLabel("X");
+		chart.getAxisLayout().setYAxisLabel("Y");
+		chart.getAxisLayout().setZAxisLabel("Z");
 	}
 
 	public Chart getChart() {
@@ -128,7 +131,7 @@ public class ChartHandler extends JPanel {
 
 	public void updateGraph() {
 		setChartZScale(zValues);
-		List<AbstractDrawable> list = chart.getScene().getGraph().getAll();
+		List<Drawable> list = chart.getScene().getGraph().getAll();
 		synchronized(list) {
 			list.clear();
 
@@ -137,7 +140,7 @@ public class ChartHandler extends JPanel {
 				if(f == null || !f.checkSyntax()) continue;
 
 				Mapper m = new FunctionMapper(f);
-				Shape surface = Builder.buildOrthonormal(new OrthonormalGrid(xValues, xSteps, yValues, ySteps), m);
+				Shape surface = new SurfaceBuilder().orthonormal(new OrthonormalGrid(xValues, xSteps, yValues, ySteps), m);
 				surface.setColorMapper(colors[i].generateColorMapper());
 				surface.setWireframeColor(Color.BLACK);
 				/*surface.setColor(Color.BLACK);

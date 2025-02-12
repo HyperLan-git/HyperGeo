@@ -8,6 +8,8 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class FunctionTableCellRenderer extends DefaultTableCellRenderer {
+	private static final long serialVersionUID = 1L;
+
 	private FunctionColorButton instance = new FunctionColorButton();
 
 	public FunctionTableCellRenderer() {

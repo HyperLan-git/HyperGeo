@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import javax.swing.JButton;
 
 public class FunctionColorButton extends JButton {
+	private static final long serialVersionUID = 1L;
+
 	public static final String COLOR_CHANGED_PROPERTY = "color_changed";
 	private Color currentColor = Color.RED;
 	

@@ -10,6 +10,8 @@ import com.hyper.dialog.options.OptionDialog2D;
 import com.hyper.io.EventHandler2d;
 
 public class Pane2D extends JPanel {
+	private static final long serialVersionUID = 1L;
+
 	private JPanel rightPane;
 
 	private OptionDialog2D dialog;

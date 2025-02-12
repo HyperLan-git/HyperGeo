@@ -22,6 +22,8 @@ import org.jzy3d.maths.Range;
 import com.hyper.components.cr.ChartHandler;
 
 public class OptionDialog3D extends JDialog implements ActionListener {
+	private static final long serialVersionUID = 1L;
+
 	public static final Dimension MINIMUM_SIZE = new Dimension(300, 200);
 
 	private JPanel mainPanel = new JPanel(),
@@ -48,7 +50,7 @@ public class OptionDialog3D extends JDialog implements ActionListener {
 		this.parent = parent;
 
 		vWinPane.setBorder(new TitledBorder("View window"));
-		stepsPane.setBorder(new TitledBorder("Étapes de calcul"));
+		stepsPane.setBorder(new TitledBorder("Ã©".toUpperCase() + "tapes de calcul"));
 		vWinPane.setPreferredSize(new Dimension(150, 100));
 		vWinPane.setMinimumSize(new Dimension(150, 100));
 		stepsPane.setPreferredSize(new Dimension(120, 75));
@@ -148,9 +150,9 @@ public class OptionDialog3D extends JDialog implements ActionListener {
 		} catch (NumberFormatException e) {
 			System.out.println(e.getMessage());
 			if(error.getText().isEmpty())
-				error.setText("Entrée non reconnue : " + e.getLocalizedMessage());
+				error.setText("EntrÃ©e non reconnue : " + e.getLocalizedMessage());
 			else
-				error.setText(error.getText() + ", Entrée non reconnue : " + e.getLocalizedMessage());
+				error.setText(error.getText() + ", EntrÃ©e non reconnue : " + e.getLocalizedMessage());
 			return Float.NaN;
 		}
 	}
@@ -160,9 +162,9 @@ public class OptionDialog3D extends JDialog implements ActionListener {
 		} catch (NumberFormatException e) {
 			System.out.println(e.getMessage());
 			if(error.getText().isEmpty())
-				error.setText("Entrée non reconnue : " + e.getLocalizedMessage());
+				error.setText("EntrÃ©e non reconnue : " + e.getLocalizedMessage());
 			else
-				error.setText(error.getText() + ", Entrée non reconnue : " + e.getLocalizedMessage());
+				error.setText(error.getText() + ", EntrÃ©e non reconnue : " + e.getLocalizedMessage());
 			return 0;
 		}
 	}

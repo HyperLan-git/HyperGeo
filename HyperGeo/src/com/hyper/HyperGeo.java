@@ -16,18 +16,18 @@ import com.hyper.components.rr.Pane2D;
 
 public class HyperGeo implements ActionListener {
 	public static final String HELP_TEXT = "Entrez une couleur totalement transparente pour avoir un arc-en-ciel dans le graphe 3d\n"
-			+ "Attention à ne pas travailler avec des valeurs trop précises, les erreurs des nombres à virgule flottante s'accumulent...\n"
-			+ "Liste des fonctions utilisables dans les fonctions définies par l'utilisateur (en plus des autres définies plus haut):\n"
+			+ "On travaille avec des flottants Ã  prÃ©cision simple\n"
+			+ "Liste des fonctions utilisables dans les fonctions dÃ©finies par l'utilisateur (en plus des autres dÃ©finies plus haut):\n"
 			+ "cosinus = cos(x), sinus = sin(x), tangente = tan(x)\n"
 			+ "secant = sec(x), cosecant = cosec(x), cotangente = ctan(x)\n"
 			+ "arccosinus = asin(x), arcsinus = asin(x), arctangente = atan(x)\n"
-			+ "logarithme néperien = ln(x), logarithme de base n = log(x, n)\n"
-			+ "exponentielle = exp(x), racine carrée = sqrt(x)\n"
+			+ "logarithme nÃ©perien = ln(x), logarithme de base n = log(x, n)\n"
+			+ "exponentielle = exp(x), racine carrÃ©e = sqrt(x)\n"
 			+ "cosinus, sinus et tangente hyperbolique = cosh(x), sinh(x) et tanh(x)\n"
 			+ "valeur absolue = abs(x), fonction signe = sgn(x), fonction erreur = erf(x)\n"
-			+ "partie entiére par défaut = floor(x), par excés = ceil(x)\n"
+			+ "partie entiÃ©re par dÃ©faut = floor(x), par excÃ©s = ceil(x)\n"
 			+ "a modulo b = mod(a, b), Coefficient binomial = C(n, k)\n"
-			+ "intégrale de f(x) par rapport à x entre a et b = int(f(x), x, a, b), dérivée = der(f(x), x)\n"
+			+ "intÃ©grale de f(x) par rapport Ã  x entre a et b = int(f(x), x, a, b), dÃ©rivÃ©e = der(f(x), x)\n"
 			+ "\nConstantes : pi, e, [phi], [PN]\n"
 			+ "\n\n\n\n\n\n\n"
 			+ "Plus d'infos : http://mathparser.org/mxparser-math-collection/";
@@ -53,8 +53,8 @@ public class HyperGeo implements ActionListener {
 		window.setMinimumSize(new Dimension(600, 500));
 
 		pane = new JTabbedPane();
-		pane.addTab("Fonctions de réel à réel", pane2D);
-		pane.addTab("Fonctions de complexes à réel", pane3D);
+		pane.addTab("Fonctions de rÃ©el Ã  rÃ©el", pane2D);
+		pane.addTab("Fonctions de complexes Ã  rÃ©el", pane3D);
 		window.setContentPane(pane);
 
 		initBar();
@@ -67,7 +67,7 @@ public class HyperGeo implements ActionListener {
 		JMenuBar bar = new JMenuBar();
 
 		options = new JMenuItem("Options");
-		about = new JMenuItem("à".toUpperCase() + " propos");
+		about = new JMenuItem("Ã ".toUpperCase() + " propos");
 		help = new JMenuItem("Aide");
 		quit = new JMenuItem("Quitter");
 
@@ -96,7 +96,7 @@ public class HyperGeo implements ActionListener {
 			if(pane2D.equals(pane.getSelectedComponent())) pane2D.options();
 			if(pane3D.equals(pane.getSelectedComponent())) pane3D.options();
 		} else if(o.equals(about)) {
-			JOptionPane.showMessageDialog(window, "Codé par : HyperLan\nDes suggestions, remarques ?\nContactez moi : rekikyouness6@gmail.com",
+			JOptionPane.showMessageDialog(window, "CodÃ© par : HyperLan\nDes suggestions, remarques ?\nContactez moi : hyperlanf@gmail.com",
 					about.getText(), JOptionPane.INFORMATION_MESSAGE);
 		} else if(o.equals(help)) {
 			JOptionPane.showMessageDialog(window, HELP_TEXT, help.getText(), JOptionPane.INFORMATION_MESSAGE);

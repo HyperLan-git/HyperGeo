@@ -12,6 +12,8 @@ import com.hyper.dialog.options.OptionDialog3D;
 import com.hyper.io.EventHandler3d;
 
 public class Pane3D extends JPanel {
+	private static final long serialVersionUID = 1L;
+
 	private OptionDialog3D options;
 
 	private JSplitPane content;

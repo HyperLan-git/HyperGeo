@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 public class FunctionTableModel extends AbstractTableModel {
+	private static final long serialVersionUID = 1L;
+
 	public static final String COLUMN_1_IDENTIFIER = "Function name",
 			COLUMN_2_IDENTIFIER = "Function definition",
 			COLUMN_3_IDENTIFIER = "Function draw color";

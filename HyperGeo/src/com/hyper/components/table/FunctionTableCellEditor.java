@@ -9,6 +9,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 public class FunctionTableCellEditor extends DefaultCellEditor {
+	private static final long serialVersionUID = 1L;
+
 	private FunctionColorButton button = new FunctionColorButton();
 
 	public FunctionTableCellEditor(JTextField textField) {

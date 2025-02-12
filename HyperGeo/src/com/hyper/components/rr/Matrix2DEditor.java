@@ -16,6 +16,8 @@ import javax.swing.event.ChangeEvent;
 import com.hyper.math.Matrix2bd;
 
 public class Matrix2DEditor extends JPanel implements CellEditorListener {
+	private static final long serialVersionUID = 1L;
+
 	public static final Dimension MINIMUM_SIZE = new Dimension(100, 200);
 
 	public static final String[] COLUMN_NAMES = {"x", "y"};
@@ -108,9 +110,9 @@ public class Matrix2DEditor extends JPanel implements CellEditorListener {
 		} catch (NumberFormatException e) {
 			System.out.println(e.getMessage());
 			if(error.getText().isEmpty())
-				error.setText("Entrée non reconnue : " + e.getLocalizedMessage());
+				error.setText("EntrÃ©e non reconnue : " + e.getLocalizedMessage());
 			else
-				error.setText(error.getText() + ", Entrée non reconnue : " + e.getLocalizedMessage());
+				error.setText(error.getText() + ", EntrÃ©e non reconnue : " + e.getLocalizedMessage());
 			System.out.println(error.getText());
 			return null;
 		}

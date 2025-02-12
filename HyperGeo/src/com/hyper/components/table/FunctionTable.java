@@ -10,6 +10,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableModel;
 
 public class FunctionTable extends JTable {
+	private static final long serialVersionUID = 1L;
+
 	public static final Dimension MINIMUM_SIZE = new Dimension(200, 100);
 
 	public FunctionTable() {

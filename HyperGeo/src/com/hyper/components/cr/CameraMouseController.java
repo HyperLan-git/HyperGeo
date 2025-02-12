@@ -1,24 +1,27 @@
 package com.hyper.components.cr;
 
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+
 import org.jzy3d.chart.Chart;
 import org.jzy3d.chart.controllers.camera.AbstractCameraController;
-import org.jzy3d.chart.controllers.mouse.NewtMouseUtilities;
 import org.jzy3d.chart.controllers.thread.camera.CameraThreadController;
 import org.jzy3d.maths.BoundingBox3d;
 import org.jzy3d.maths.Coord2d;
 import org.jzy3d.maths.Coord3d;
 import org.jzy3d.plot3d.rendering.view.View;
 
-import com.jogamp.newt.event.InputEvent;
-import com.jogamp.newt.event.MouseEvent;
-import com.jogamp.newt.event.MouseListener;
 
-public class CameraMouseController extends AbstractCameraController implements MouseListener {
+public class CameraMouseController extends AbstractCameraController implements MouseListener, MouseMotionListener, MouseWheelListener {
 
 	public CameraMouseController(Chart chart) {
 		this.updateViewDefault = true;
 		register(chart);
-		addSlaveThreadController(new CameraThreadController(chart));
+		addThread(new CameraThreadController(chart));
 	}
 
 	@Override
@@ -38,7 +41,7 @@ public class CameraMouseController extends AbstractCameraController implements M
 	 * rotation, while simple click stops it.*/
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// 
+		System.out.println("press !");
 		if(handleSlaveThread(e))
 			return;
 
@@ -57,49 +60,52 @@ public class CameraMouseController extends AbstractCameraController implements M
 			threadController.stop();
 		return false;
 	}
-
-	/** Compute shift or rotate*/
+	
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		System.out.println("drag !");
 		Coord2d mouse = new Coord2d(e.getX(), e.getY());
 		// Rotate
 		if(isLeftDown(e)){
-			Coord2d move  = mouse.sub(prevMouse).div(100);
+			Coord2d move  = mouse.sub(prevMouse).div(10);
 			rotate( move );
+			for(Chart c: targets) {
+				c.updateProjectionsAndRender();
+			}
 		}
 		// Shift
 		else if(isRightDown(e)){
-			Coord2d move  = mouse.sub(prevMouse);
+			Coord2d move  = mouse.sub(prevMouse).mul(-1.f);
 			for(Chart c : targets) {
 				View v = c.getView();
 				float width = v.getScale().getMax()-v.getScale().getMin();
 				BoundingBox3d box = v.getBounds().clone().shift(new Coord3d(move.x/5000*width, -move.y/5000*width, 0));
 				v.lookToBox(box);
+				c.updateProjectionsAndRender();
 			}
 		}
 
 		prevMouse = mouse;
 	}
 
+
 	public static boolean isLeftDown(MouseEvent e) {
-		return (e.getModifiers() & InputEvent.BUTTON1_MASK) == InputEvent.BUTTON1_MASK;
+		return (e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0;
 	}
 
 	public static boolean isRightDown(MouseEvent e) {
-		return (e.getModifiers() & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK; 
+		return (e.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0; 
 	}
 
 	public static boolean isDoubleClick(MouseEvent e) {
 		return (e.getClickCount() > 1);
 	}
 
-	/** Compute zoom */
 	@Override
-	public void mouseWheelMoved(MouseEvent e) {
-		System.out.println("ZOOM !");
+	public void mouseWheelMoved(MouseWheelEvent e) {
 		stopThreadController();
 
-		float factor = NewtMouseUtilities.convertWheelRotation(e, 1.0f, 10.0f);
+		float factor = 1.f + Math.clamp((float)e.getPreciseWheelRotation()/100.f, -.99f, 1.f);
 
 		for(Chart c: targets) {
 			c.getView().zoomX(factor);
@@ -115,7 +121,7 @@ public class CameraMouseController extends AbstractCameraController implements M
 	@Override
 	public void mouseExited(MouseEvent e) {}
 	@Override
-	public void mouseReleased(MouseEvent e) {} 
+	public void mouseReleased(MouseEvent e) {}
 	@Override
 	public void mouseMoved(MouseEvent e) {}
 }
