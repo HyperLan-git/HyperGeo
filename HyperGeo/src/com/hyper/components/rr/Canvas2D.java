@@ -74,7 +74,7 @@ public class Canvas2D extends Canvas {
 	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.WHITE);
-		//g.fillRect(0, 0, getWidth(), getHeight());
+		g.fillRect(0, 0, getWidth(), getHeight());
 		if(offImage != null)
 			g.drawImage(offImage, 0, 0, this);
 		updateOffscreenImage();
